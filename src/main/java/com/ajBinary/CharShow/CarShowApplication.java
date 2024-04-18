@@ -2,8 +2,10 @@ package com.ajBinary.CharShow;
 
 import com.ajBinary.CharShow.entity.Car;
 import com.ajBinary.CharShow.entity.Owner;
+import com.ajBinary.CharShow.entity.User;
 import com.ajBinary.CharShow.repository.CarRepository;
 import com.ajBinary.CharShow.repository.OwnerRepository;
+import com.ajBinary.CharShow.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +22,8 @@ public class CarShowApplication implements CommandLineRunner {
 	private CarRepository carRepository;
 	@Autowired
 	private OwnerRepository ownerRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	private static final Logger logger =  LoggerFactory.getLogger(CarShowApplication.class);
 	public static void main(String[] args) {
@@ -44,5 +48,18 @@ public class CarShowApplication implements CommandLineRunner {
 		);
 		carRepository.saveAll(cars);
 		carRepository.findAll().forEach(car -> logger.info(car.getBrand() +" "+car.getModel()));
+
+		userRepository.save(new User(
+				"user",
+				"$2y$10$dc3e3saiBRuwAmihOB0cWe8cI./MVgKIrdq9uCukCnRXYoNgYR1e6",
+				"USER"));
+		// Username: admin, password: adminPass
+		userRepository.save(new User(
+				"admin",
+				"$2y$10$VKlPOmlBxacyOtoGuASJuu6F0E4Gf/VfiWsVZSHlr3xHzjn9DQ68W",
+				"ADMIN"));
+
+
 	}
+
 }

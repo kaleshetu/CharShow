@@ -1,12 +1,16 @@
 package com.ajBinary.CharShow.security;
 
+import com.ajBinary.CharShow.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,6 +30,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 
 public class SecurityConfig {
+    @Autowired
+    private UserServiceImpl userService;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         return http
@@ -48,7 +54,7 @@ public class SecurityConfig {
 
 
     }
-    @Bean
+   /* @Bean
     public UserDetailsService userDetailsService(){
         UserDetails admin = User.builder()
                 .username("admin")
@@ -61,9 +67,14 @@ public class SecurityConfig {
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(admin, user);
+    }*/
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
     }
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
 }
