@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class CarController {
     @Autowired
     private CarService carService;
-
     @GetMapping("/all")
     public ResponseEntity<List<Car>> getCars(){
         return new ResponseEntity<>(carService.getCars(), HttpStatus.OK);

@@ -28,7 +28,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 //Configure my Security Filter Bean
 @Configuration
 @EnableWebSecurity
-
 public class SecurityConfig {
     @Autowired
     private UserServiceImpl userService;
